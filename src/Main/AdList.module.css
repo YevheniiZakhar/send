@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    text-align: center;
+}
+
+.block {
+    width: 400px;
+}
+
+.ad {
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+.ad:hover {
+    box-shadow: inset 30rem 0 0 0 #75bb1a;
+    color: white;
+  }

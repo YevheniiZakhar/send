@@ -1,0 +1,48 @@
+.form {
+    max-width: 30rem;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  
+  .formLabel {
+    margin-bottom: 0.25rem;
+  }
+  
+  .form-field {
+    padding: 0.5rem;
+  }
+  
+  .formFieldError {
+    border: 1px solid #e11d48;
+  }
+  
+  .formFieldErrorMessage {
+    color: #e11d48;
+  }
+  
+  .formActions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .formSubmitBtn {
+    padding: 0.5rem 0.7rem;
+    min-width: 5rem;
+    background-color: #9333ea;
+    color: #f3e8ff;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .form-control {
+    height: 55px !important;
+    width: 100% !important;
+  }
+
+  .react-tel-input {
+    margin-bottom: 16px  !important;
+  }
