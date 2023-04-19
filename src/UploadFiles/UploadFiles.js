@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { imageListItemClasses } from "@mui/material/ImageListItem";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Tooltip from '@mui/material/Tooltip';
@@ -33,8 +33,8 @@ export default function UploadFiles({ onFilesChange }) {
     breakpoints: {
       values: {
         mobile: 0,
-        bigMobile: 600,
-        tablet: 864,
+        bigMobile: 740,
+        tablet: 980,
         laptop: 1024,
         desktop: 1200,
       },
@@ -62,9 +62,13 @@ export default function UploadFiles({ onFilesChange }) {
         </Alert>
       </Snackbar>
       
+      <Stack sx={{ textAlign: "center"}}> 
       {fileList && fileList.length > 0 ? <ThemeProvider theme={theme}>
         <Box 
           sx={{
+            maxHeight: '17rem',
+            overflowY: 'auto',
+            overflowX: 'hidden',
             justifyContent: "center",
             display: "grid",
             gridTemplateColumns: {
@@ -80,16 +84,17 @@ export default function UploadFiles({ onFilesChange }) {
           }}
         >
           {files.map((file, i) => (
-            <Box key={i} >
-              <img
+            <Box sx={{ height: "7rem", marginTop: '1rem'}} component="img" key={i} src={`${URL.createObjectURL(file)}`}>
+              {/* <img
                 style={{ maxHeight: "7rem" }}
                 src={`${URL.createObjectURL(file)}`} 
                 alt="" 
-                loading="lazy" />
+                loading="lazy" /> */}
             </Box>
           ))}
         </Box>
       </ThemeProvider> : ''}
+      </Stack>
     </Container>
   );
 };

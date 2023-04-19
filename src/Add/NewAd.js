@@ -103,24 +103,24 @@ import {
     const onSubmitHandler = (values) => { //: SubmitHandler<registerinput>
       const formData = new FormData();
       //console.log(fileList[0]);
-       formData.append("name", values.name);
-       formData.append("description", values.description);
-       formData.append("userName", values.userName);
+      formData.append("name", values.name);
+      formData.append("description", values.description);
+      formData.append("userName", values.userName);
         //formData.append('str', JSON.stringify(fileList));
-        fileList.forEach(item =>
-          {
-              formData.append('file', item);
-          });
+      fileList.forEach(item =>
+      {
+        formData.append('file', item);
+      });
       //  formData.append("frontFiles[1]", fileList[1]);
       //  formData.append("frontFiles[2]", fileList[2]);
       //  formData.append("frontFiles[3]", fileList[3]);
       //  formData.append("frontFiles[4]", fileList[4]);
       //  formData.append("frontFiles[5]", fileList[5]);
       //  formData.append("frontFiles[6]", fileList[6]);
-        formData.append("price", values.price);
-       formData.append("categoryId", values.category);
-       formData.append("phone", values.phone);
-       formData.append("localityId", values.locality);
+      formData.append("price", values.price);
+      formData.append("categoryId", values.category);
+      formData.append("phone", values.phone);
+      formData.append("localityId", values.locality);
 
        axios.post('http://localhost:5110/ad', formData).then(resp => {
          console.log(resp);
@@ -144,6 +144,7 @@ import {
     //   return true;
     // }
     // TODO add alert if want to close/cancel
+    // TODO if add ad without photo display popup friendly info message smth like "You didn't add any photo. Do you want to publish your ad wothout photo?"
     return (
       <Container>
           <Typography variant='h4' component='h1' sx={{ mb: '2rem', textAlign: 'center' }}>

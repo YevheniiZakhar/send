@@ -25,7 +25,7 @@ export default function FormLocality() {
     }
 
   return (
-    <Controller control={control} name="locality" render={({ field })=> (
+    <Controller control={control} name={'locality'} render={({ field })=> (
       <FormControl sx={{marginTop: errors['phone'] ? '1rem' : ''}} fullWidth error={!!errors['locality']}>
         <Autocomplete
           {...field}
@@ -39,7 +39,7 @@ export default function FormLocality() {
           onChange={field.onChange}
           renderOption={(props, option) => {
             return (
-                <li {...props} key={option.id}>
+                <li {...props} value={option.id} key={option.id}>
                 {option.locality}
                 </li>
             );
