@@ -15,7 +15,7 @@ export default function FormLocality() {
 
   const onAutocompleteChange = async (event, value) => {
       if (value.length > 1 && event.type !== "click") {
-        const res = await axios.get(`http://localhost:5110/ad/locality?str=${value}`);
+        const res = await axios.get(process.env.REACT_APP_SERVER_URL+`ad/locality?str=${value}`);
         if (res.status === 200) {
           setLOptions(res.data);
         }

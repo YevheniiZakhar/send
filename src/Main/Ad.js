@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import axios from "axios"
 import styles from "./AdList.module.css"
-import { Box, Container, Typography, Stack  } from "@mui/material";
+import { Box, Container, Typography, Stack, Tooltip  } from "@mui/material";
 import { useParams } from 'react-router';
 import ImageViewer from 'react-simple-image-viewer';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -56,7 +56,7 @@ export default function Ad() {
       // });
       const fetchData = async () => {
 
-        const data = await axios.get(`http://localhost:5110/ad/byid?id=${id}`);
+        const data = await axios.get(process.env.REACT_APP_SERVER_URL+`ad/byid?id=${id}`);
         setAd(data.data);
         const files = [data.data.file1,data.data.file2,data.data.file3,data.data.file4,data.data.file5,data.data.file6,data.data.file7,data.data.file8];
         let imgs = [];
@@ -108,13 +108,15 @@ export default function Ad() {
           }}
         >
           {images.map((src, i) => { return src && ( 
-            <Box 
-              key={i} 
-              sx={{height: "7rem", marginTop: '1rem', cursor: 'pointer'}} 
-              onClick={ () => openImageViewer(i) } 
-              component="img" 
-              src={src} >
-            </Box>
+            <Tooltip title="Натисніть на фото щоб збільшити">
+              <Box 
+                key={i} 
+                sx={{height: "7rem", marginTop: '1rem', cursor: 'pointer'}} 
+                onClick={ () => openImageViewer(i) } 
+                component="img" 
+                src={src} >
+              </Box>
+            </Tooltip>
           )})}
         </Box>
       </ThemeProvider> : ''}
@@ -141,16 +143,21 @@ export default function Ad() {
       </Stack>
      
       {isViewerOpen && (
-        <ImageViewer
-          src={ images }
-          currentIndex={ currentImage }
-          disableScroll={ false }
-          closeOnClickOutside={ true }
-          onClose={ closeImageViewer }
-          backgroundStyle={{
-            backgroundColor: "rgba(0,0,0,0.9)"
-          }}
-        />
+        <Stack>
+          <ImageViewer
+            src={ images }
+            currentIndex={ currentImage }
+            disableScroll={ false }
+            closeOnClickOutside={ true }
+            onClose={ closeImageViewer }
+            backgroundStyle={{
+              backgroundColor: "rgba(0,0,0,0.9)"
+            }}
+          />
+          <Typography variant='h6' gutterBottom>
+          Місцезнаходження: 
+        </Typography>
+        </Stack>
       )}
       </Stack>
       // <Box key={ad.id} className={styles.ad} sx={{ p: 2, border: '1px dashed grey' }}>

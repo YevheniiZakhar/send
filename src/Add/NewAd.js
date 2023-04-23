@@ -64,7 +64,7 @@ import {
     const [categoryOptions, setCategoryOptions] = useState();
 
     useEffect(() => {
-      axios.get('http://localhost:5110/ad/data')
+      axios.get(process.env.REACT_APP_SERVER_URL+'ad/data')
       .then(resp => {
         //console.log(resp);
         const categories = resp.data.category.map((c) => ({id: c.id, name: c.name}));
@@ -122,10 +122,11 @@ import {
       formData.append("phone", values.phone);
       formData.append("localityId", values.locality);
 
-       axios.post('http://localhost:5110/ad', formData).then(resp => {
+       axios.post(process.env.REACT_APP_SERVER_URL+'ad', formData).then(resp => {
          console.log(resp);
         })
         .catch((error) => {
+        // TODO HANDLE DIFFERENT SCENARIOUS (201, 500, and display appropriate message on UI)
          console.log(error)
         });
     };

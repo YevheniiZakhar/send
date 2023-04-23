@@ -26,7 +26,7 @@ export default function AddForm() {
   });
 
   useEffect(() => {
-    axios.get('http://localhost:5110/ad/data')
+    axios.get(process.env.REACT_APP_SERVER_URL+'ad/data')
     .then(resp => {
       //console.log(resp);
       const categories = resp.data.category.map((c) => ({'value': c.id, label: c.name}) );
@@ -73,7 +73,7 @@ export default function AddForm() {
       //formData.append("name", "sadasdasd");
 
     // console.log(reader.readAsBinaryString(fileList[0]));
-      axios.post('http://localhost:5110/ad', formData) // {name: form.name, description: form.description, price: form.price, frontFile: fileList[0], categoryId: form.category, phone: form.phone, localityId: 1})
+      axios.post(process.env.REACT_APP_SERVER_URL+'ad', formData) // {name: form.name, description: form.description, price: form.price, frontFile: fileList[0], categoryId: form.category, phone: form.phone, localityId: 1})
       .then(resp => {
        // console.log(resp);
       })

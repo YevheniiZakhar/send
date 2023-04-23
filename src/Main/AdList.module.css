@@ -10,9 +10,12 @@
 }
 
 .ad {
-    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+    padding: 1rem;
 }
 .ad:hover {
-    box-shadow: inset 30rem 0 0 0 #75bb1a;
-    color: white;
+    cursor: pointer;
+    background-color:#e1f7ff;
+    -webkit-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
   }
