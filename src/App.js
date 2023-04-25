@@ -22,7 +22,7 @@ function App() {
   return (
     // investigate
     // https://mahdi-karimipour.medium.com/responsive-layout-setup-header-content-footer-for-your-react-single-page-application-spa-f5287cdf2a50
-    <Container sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Container sx={{ minHeight: '97vh', display: 'flex', flexDirection: 'column' }}>
       <Header></Header>
       <Stack >
         <Routes>
