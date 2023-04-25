@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { Controller, useFormContext } from 'react-hook-form';
 import { FormControl, FormHelperText } from '@mui/material';
 
-export default function FormLocality() {
+export default function FormLocality({edit}) {
   const [lOptions, setLOptions] = useState([]);
 
   const {
@@ -14,19 +14,21 @@ export default function FormLocality() {
   } = useFormContext();
 
   const onAutocompleteChange = async (event, value) => {
-      if (value.length > 1 && event.type !== "click") {
-        const res = await axios.get(process.env.REACT_APP_SERVER_URL+`ad/locality?str=${value}`);
-        if (res.status === 200) {
-          setLOptions(res.data);
+    if (value !== 'undefined') {
+        if (value.length > 1 && event.type !== "click") {
+          const res = await axios.get(process.env.REACT_APP_SERVER_URL+`ad/locality?str=${value}`);
+          if (res.status === 200) {
+            setLOptions(res.data);
+          }
+        } else {
+          setLOptions([]);
         }
-      } else {
-        setLOptions([]);
       }
     }
 
   return (
-    <Controller control={control} name={'locality'} render={({ field })=> (
-      <FormControl sx={{marginTop: errors['phone'] ? '1rem' : ''}} fullWidth error={!!errors['locality']}>
+    <>{!edit && <Controller control={control} name={'localityId'} render={({ field })=> (
+      <FormControl sx={{marginTop: errors['phone'] ? '1rem' : ''}} fullWidth error={!!errors['localityId']}>
         <Autocomplete
           {...field}
           openOnFocus={true}
@@ -44,10 +46,11 @@ export default function FormLocality() {
                 </li>
             );
           }}
-          renderInput={(params) => <TextField {...params} label="Місцезнаходження *" />}
+          renderInput={(params) => <TextField {...params} defaultValue='aaa' label="Місцезнаходження *" />}
         />
-        <FormHelperText>{errors['locality'] ? errors['locality'].message : ''}</FormHelperText>
+        <FormHelperText>{errors['localityId'] ? errors['localityId'].message : ''}</FormHelperText>
       </FormControl>
-    )}/>
+    )}/>}</>
+    
   )
 }

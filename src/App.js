@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import AddAd from "./Add/AddAd";
+import AddOrUpdateAd from "./Add/AddOrUpdateAd";
 
 import Main from "./Main/Main";
 import Profile from "./Profile/Profile";
@@ -27,7 +27,7 @@ function App() {
       <Stack >
         <Routes>
           <Route exact path="/" element={<Main />}/>
-          <Route path="/add" element={<AddAd />}/>
+          <Route path="/add" element={<AddOrUpdateAd />}/>
           <Route path="/collaborate" element={<Collaborate />}/>
           <Route path="/ad/:title/:id" element={
             // todo update fallback to valid value

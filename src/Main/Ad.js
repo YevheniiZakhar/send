@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import axios from "axios"
-import styles from "./AdList.module.css"
+import React, { useEffect, useState, useCallback } from 'react';
+import axios from "axios";
+import styles from "./AdList.module.css";
 import { Box, Container, Typography, Stack, Tooltip  } from "@mui/material";
 import { useParams } from 'react-router';
 import ImageViewer from 'react-simple-image-viewer';
@@ -56,7 +56,7 @@ export default function Ad() {
       // });
       const fetchData = async () => {
 
-        const data = await axios.get(process.env.REACT_APP_SERVER_URL+`ad/byid?id=${id}`);
+        const data = await axios.get(process.env.REACT_APP_SERVER_URL+`ad/getbyid?id=${id}`);
         setAd(data.data);
         const files = [data.data.file1,data.data.file2,data.data.file3,data.data.file4,data.data.file5,data.data.file6,data.data.file7,data.data.file8];
         let imgs = [];

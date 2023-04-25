@@ -38,11 +38,11 @@ import {
       .min(80, 'Потрібно ввести не менше ніж 80 символів')
       .nonempty(),
       // //.max(32, 'Name must be less than 100 characters'),
-      category: 
+      categoryId: 
         number({
           required_error: "Виберіть категорію",
         }),
-      locality: number({
+      localityId: number({
         required_error: "Заповніть ваше місцезнаходження",
       }),
       phone: string({
@@ -58,8 +58,8 @@ import {
   
   //type RegisterInput = TypeOf<typeof registerschema>;
   
-  const NewAd = () => {
-    const [l, setL] = useState(0);
+  const AddOrUpdateAd = ({ defaultValue }) => {
+    const files = defaultValue ? [defaultValue.file1,defaultValue.file2,defaultValue.file3,defaultValue.file4,defaultValue.file5,defaultValue.file6,defaultValue.file7,defaultValue.file8] : false;
     const [fileList, setFileList] = useState();
     const [categoryOptions, setCategoryOptions] = useState();
 
@@ -75,24 +75,22 @@ import {
       });
     }, []);
   
-
-    const localityChanged = (value) => {
-      setL(value);
-    }
-    
     const [loading, setLoading] = useState(false);
 
     const methods = useForm({ // <registerinput>
+      defaultValues: defaultValue,
       resolver: zodResolver(registerSchema),
     });
   
     const {
+      setValue,
       reset,
       handleSubmit,
       register,
-      formState: { isSubmitSuccessful, errors },
+      formState: { isSubmitSuccessful, errors, isValid },
     } = methods;
-    //console.log(errors);
+    console.log(errors);
+
     // useEffect(() => {
     //   if (isSubmitSuccessful) {
     //     reset();
@@ -107,10 +105,12 @@ import {
       formData.append("description", values.description);
       formData.append("userName", values.userName);
         //formData.append('str', JSON.stringify(fileList));
-      fileList.forEach(item =>
-      {
-        formData.append('file', item);
-      });
+      if (fileList) {
+        fileList.forEach(item =>
+          {
+            formData.append('file', item);
+          });
+      }
       //  formData.append("frontFiles[1]", fileList[1]);
       //  formData.append("frontFiles[2]", fileList[2]);
       //  formData.append("frontFiles[3]", fileList[3]);
@@ -118,11 +118,19 @@ import {
       //  formData.append("frontFiles[5]", fileList[5]);
       //  formData.append("frontFiles[6]", fileList[6]);
       formData.append("price", values.price);
-      formData.append("categoryId", values.category);
+      formData.append("categoryId", values.categoryId);
       formData.append("phone", values.phone);
-      formData.append("localityId", values.locality);
+      formData.append("localityId", values.localityId);
 
-       axios.post(process.env.REACT_APP_SERVER_URL+'ad', formData).then(resp => {
+      let result;
+      if (!defaultValue) {
+        result = axios.post(process.env.REACT_APP_SERVER_URL+'ad', formData);
+      } else {
+        formData.append("id", defaultValue.id);
+        result = axios.put(process.env.REACT_APP_SERVER_URL+'ad', formData);
+      }
+      result
+       .then(resp => {
          console.log(resp);
         })
         .catch((error) => {
@@ -160,7 +168,6 @@ import {
             >
               <Container maxWidth="sm">
               <CardWrapper title="Інформація про оголошення">
-
                 <FormInput
                   name='name'
                   required
@@ -189,11 +196,9 @@ import {
 
                 <FormSelect
                   options={categoryOptions}
-                  name='category'
+                  name='categoryId'
                   label='Категорія'
                 />
-
-               
 
                 </CardWrapper>
                  <CardWrapper title="Контактна інформація">
@@ -205,7 +210,7 @@ import {
                   mt='1rem'
                 />
                   <FormPhone />
-                <FormLocality localityChanged={localityChanged} />
+                <FormLocality edit={defaultValue !== undefined}/>
                 </CardWrapper>
                 {/* <PhoneInput
                     dropdownStyle={{height:'100px', maxWidth: '100%'}}
@@ -220,7 +225,7 @@ import {
                 
               </Container>
               <CardWrapper title="Фото">
-              <UploadFiles onFilesChange={(files) => setFileList(files)}/>
+              <UploadFiles onFilesChange={(files) => setFileList(files)} defaulFiles={files}/>
               </CardWrapper>
               {/* <FormGroup>
                 <FormControlLabel
@@ -245,15 +250,13 @@ import {
                   sx={{ py: '0.8rem', mt: '1rem' }}
                   onClick={handleSubmit(onSubmitHandler)}
                 >
-                  Опублікувати
-                </Button>
+                  {!defaultValue ? 'Опублікувати оголошення' : 'Змінити оголошення'}
+                </Button> 
               </Container>
             </Box>
           </FormProvider>
-        
-        
       </Container>
     );
   };
   
-  export default NewAd;
+  export default AddOrUpdateAd;

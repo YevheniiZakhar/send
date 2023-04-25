@@ -14,11 +14,16 @@ export default function Header() {
     navigate("/")
   }
 
+  const handleProfile = () => {
+    navigate("/profile")
+  }
+
   return (
     <Container sx={{mb: '1rem'}}>
       <Stack direction='row' justifyContent="center" spacing={2}> 
         <Button variant="contained" onClick={handleLogo}>SEND UA</Button>
         <Button variant="contained" onClick={handleAdd}>Додати оголошення</Button>
+        <Button variant="contained" onClick={handleProfile}>Профіль</Button>
       </Stack>
     </Container>
   )

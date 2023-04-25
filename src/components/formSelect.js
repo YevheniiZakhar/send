@@ -8,7 +8,7 @@ const FormSelect = ({ name, label, options, ...otherProps }) => { //: FC<iformin
     control,
     formState: { errors },
   } = useFormContext();
-
+ 
   return (
     <Controller control={control} name={name} render={({ field })=> (
         <FormControl fullWidth error={!!errors[name]}>

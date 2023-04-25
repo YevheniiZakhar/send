@@ -9,11 +9,16 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 
-export default function UploadFiles({ onFilesChange }) {
+export default function UploadFiles({ onFilesChange, defaulFiles }) {
   const [fileList, setFileList] = useState();
   const [open, setOpen] = useState(false);
+  const [displayDefault, setDisplayDefault] = useState(defaulFiles ? true : false);
 
   const handleFileChange = (e) => {
+    if (displayDefault) {
+      setDisplayDefault(!displayDefault);
+    }
+
     if (e.target.files) {
       const array = Array.prototype.slice.call(e.target.files);
       console.log(array);
@@ -63,7 +68,7 @@ export default function UploadFiles({ onFilesChange }) {
       </Snackbar>
       
       <Stack sx={{ textAlign: "center"}}> 
-      {fileList && fileList.length > 0 ? <ThemeProvider theme={theme}>
+      {fileList && fileList.length > 0 || displayDefault ? <ThemeProvider theme={theme}>
         <Box 
           sx={{
             maxHeight: '17rem',
@@ -92,6 +97,12 @@ export default function UploadFiles({ onFilesChange }) {
                 loading="lazy" /> */}
             </Box>
           ))}
+           {displayDefault && defaulFiles.map((src, i) => 
+           {  return src !== null ? 
+            <Box sx={{ height: "7rem", marginTop: '1rem'}} component="img" key={'unique-image-key' + i} src={"data:image/png;base64," + src}></Box> : 
+            ''
+           }
+          )}
         </Box>
       </ThemeProvider> : ''}
       </Stack>
