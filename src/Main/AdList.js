@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import styles from "./AdList.module.css"
-import { Box, Container, CircularProgress, Typography, Tooltip } from "@mui/material";
+import { Box, Container, CircularProgress, Typography } from "@mui/material";
 import { imageListItemClasses } from "@mui/material/ImageListItem";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-
+import NoPhotographyIcon from '@mui/icons-material/NoPhotography';
 
 export default function AdList({ searchInput, searchLocality }) {
   const navigate = useNavigate();
@@ -88,11 +88,15 @@ export default function AdList({ searchInput, searchLocality }) {
             {response.results.map((x) => ( 
               <Box key={x.id} sx={{textAlign: 'initial'}} className={styles.ad} onClick={() => adClick(x.name, x.id)}>
                 <Box sx={{ textAlign: 'center'}}>
-                  <Box 
+                  {x.file1 ? <Box 
                     sx={{ height: '9rem' }}
                     component="img" 
-                    src={"data:image/png;base64," + x.file1 } >
-                  </Box>
+                    src={"data:image/png;base64," + x.file1} >
+                  </Box> 
+                  : 
+                  <Box sx={{ height: '9rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <NoPhotographyIcon color='action' sx={{ fontSize: 90 }} />
+                  </Box>}
                 </Box>
               
               
@@ -115,7 +119,7 @@ export default function AdList({ searchInput, searchLocality }) {
           <Pagination sx={{ margin: 'auto' }} color="primary" count={response.pageCount} page={page} onChange={handlePageChange} variant="outlined" shape="rounded" />
         </Stack>
       </Container> 
-      : <Typography> Помилка. Спробуйте пізніше. </Typography>
+      : <Typography sx={{ mt: "5rem" }}> Помилка. Спробуйте пізніше. </Typography>
       }
     </Container>
   )
