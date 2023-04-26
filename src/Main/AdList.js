@@ -66,7 +66,9 @@ export default function AdList({ searchInput, searchLocality }) {
      // TODO добавить к локейшн слово село\город вначале
   return (
     <Container sx={{ textAlign: "center"}}>
-      {loading ? <CircularProgress /> : response ? 
+      {loading ? <Box sx={{ height: '50vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <CircularProgress />
+                  </Box> : response ? 
       <Container>
         <ThemeProvider theme={theme}>
           <Box 
