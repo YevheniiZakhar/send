@@ -43,7 +43,6 @@ export default function AdList({ searchInput, searchLocality }) {
       // TODO invoke endpoint by pressing Enter (тільки якщо було змінено локацію або інпут)
       axios.post(process.env.REACT_APP_SERVER_URL+'ad/filter', {searchInput, searchLocality, page})
         .then(resp => {
-          console.log(resp.data);
           setResponse(resp.data);
           setLoading(false);
         })

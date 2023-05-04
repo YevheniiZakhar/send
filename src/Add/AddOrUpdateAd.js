@@ -1,31 +1,26 @@
 import {
     Box,
     Container,
-    FormControlLabel,
-    FormGroup,
-    FormHelperText,
     Typography,
   } from '@mui/material';
-  import { useForm, FormProvider} from 'react-hook-form'; //SubmitHandler
-  import { literal, object, string, number } from 'zod'; //TypeOf
+  import { useForm, FormProvider} from 'react-hook-form';
+  import { object, string, number } from 'zod'; 
   import { zodResolver } from '@hookform/resolvers/zod';
   import { useEffect, useState } from 'react';
-  //import { LoadingButton } from '@mui/lab';
   import Button from '@mui/material/Button';
-  //import Checkbox from '@mui/material/Checkbox';
   import FormInput from '../components/formInput';
   import FormSelect from '../components/formSelect';
   import axios from "axios";
-  import PhoneInput from 'react-phone-input-2';
-  import CardContent from '@mui/material/CardContent';
-  import Card from '@mui/material/Card';
   import 'react-phone-input-2/lib/style.css';
   import "./Add.css";
   import FormLocality from '../components/formLocality';
   import FormPhone from '../components/formPhone';
   import UploadFiles from '../UploadFiles/UploadFiles';
   import CardWrapper from '../components/cardWrapper';
-
+  import { GoogleLogin } from '@react-oauth/google';
+  import { useTheme } from '@mui/material/styles';
+  import useMediaQuery from '@mui/material/useMediaQuery';
+  import LogInYourAccount from '../components/LogInYourAccount'
   const registerSchema = object({
       name: string({
         required_error: "Заповніть назву",
@@ -37,6 +32,7 @@ import {
       })
       .min(80, 'Потрібно ввести не менше ніж 80 символів')
       .nonempty(),
+      email: string(),
       // //.max(32, 'Name must be less than 100 characters'),
       categoryId: 
         number({
@@ -59,6 +55,8 @@ import {
   //type RegisterInput = TypeOf<typeof registerschema>;
   
   const AddOrUpdateAd = ({ defaultValue }) => {
+  const theme = useTheme();
+  const matchesSize = useMediaQuery(theme.breakpoints.up('864'));
     const files = defaultValue ? [defaultValue.file1,defaultValue.file2,defaultValue.file3,defaultValue.file4,defaultValue.file5,defaultValue.file6,defaultValue.file7,defaultValue.file8] : false;
     const [fileList, setFileList] = useState();
     const [categoryOptions, setCategoryOptions] = useState();
@@ -74,7 +72,20 @@ import {
         //console.log(error)
       });
     }, []);
-  
+    
+    const login = async (token) => {
+      axios.get(process.env.REACT_APP_SERVER_URL + `user/google?token=${token}`,)
+      .then(result => {
+        localStorage.setItem("email", result.data.email);
+        localStorage.setItem("name", result.data.name);
+        setEmail(result.data.email);
+        setValue('email', result.data.email);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
+
     const [loading, setLoading] = useState(false);
 
     const methods = useForm({ // <registerinput>
@@ -89,8 +100,12 @@ import {
       register,
       formState: { isSubmitSuccessful, errors, isValid },
     } = methods;
-    console.log(errors);
 
+    const [email, setEmail] = useState(() => {
+      const initialValue = localStorage.getItem("email");
+      setValue('email', initialValue);
+      return initialValue || "";
+    });
     // useEffect(() => {
     //   if (isSubmitSuccessful) {
     //     reset();
@@ -104,6 +119,7 @@ import {
       formData.append("name", values.name);
       formData.append("description", values.description);
       formData.append("userName", values.userName);
+      formData.append("userEmail", values.email);
         //formData.append('str', JSON.stringify(fileList));
       if (fileList) {
         fileList.forEach(item =>
@@ -154,10 +170,38 @@ import {
     // }
     // TODO add alert if want to close/cancel
     // TODO if add ad without photo display popup friendly info message smth like "You didn't add any photo. Do you want to publish your ad wothout photo?"
+
+    useEffect(
+      () => {
+        
+        let timer1 = setTimeout(() => {
+          const result = document.getElementsByTagName('iframe');
+          if (result.length !== 0)
+          {
+            result[0].style.display = 'initial';
+          }
+          if (!matchesSize) {
+            result[0].style.height = '46px';
+            result[0].style.width = '300px';
+          }
+            
+        }, 500);
+  
+        // this will clear Timeout
+        // when component unmount like in willComponentUnmount
+        // and show will not change to true
+        return () => {
+          clearTimeout(timer1);
+        };
+      }, []);
+      const callback = (name, email) => {
+        setValue('email', email);
+        setEmail(email);
+      }
     return (
       <Container>
-          <Typography variant='h4' component='h1' sx={{ mb: '2rem', textAlign: 'center' }}>
-            Створити оголошення
+              {email ? <Container><Typography variant='h4' component='h1' sx={{ mb: '2rem', textAlign: 'center' }}>
+            {defaultValue ? 'Оновити оголошення' : 'Створити оголошення'}
           </Typography>
           <FormProvider {...methods}>
             <Box
@@ -183,7 +227,6 @@ import {
                   multiline
                   rows={6}
                   label='Опис'
-                 
                 />
 
                 <FormInput
@@ -208,6 +251,13 @@ import {
                   fullWidth
                   label='Ім’я'
                   mt='1rem'
+                />
+                 <FormInput
+                  name='email'
+                  required
+                  fullWidth
+                  disabled
+                  label='Google пошта'
                 />
                   <FormPhone />
                 <FormLocality edit={defaultValue !== undefined}/>
@@ -254,7 +304,11 @@ import {
                 </Button> 
               </Container>
             </Box>
-          </FormProvider>
+          </FormProvider></Container> 
+          :  
+          <LogInYourAccount callback={callback}/>
+          }
+          
       </Container>
     );
   };

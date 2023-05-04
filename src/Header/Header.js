@@ -1,10 +1,16 @@
-import { Container } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import React from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function Header() {
+  const theme = useTheme();
+  const matchesSize = useMediaQuery(theme.breakpoints.up('864'));
   const navigate = useNavigate();
   const handleAdd = () => {
     navigate("/add")
@@ -19,12 +25,10 @@ export default function Header() {
   }
 
   return (
-    <Container sx={{mb: '1rem'}}>
-      <Stack direction='row' justifyContent="center" spacing={2}> 
-        <Button variant="contained" onClick={handleLogo}>SEND UA</Button>
-        <Button variant="contained" onClick={handleAdd}>Додати оголошення</Button>
-        <Button variant="contained" onClick={handleProfile}>Профіль</Button>
-      </Stack>
-    </Container>
+    <Stack direction={matchesSize ? 'row' : 'column'} justifyContent="center" spacing={2} sx={{mb: 2}}> 
+        <Button size='large' variant="contained" onClick={handleLogo}>SEND</Button>
+        <Button size='large' variant="contained" startIcon={<AddIcon />} onClick={handleAdd}>Додати оголошення</Button>
+        <Button size='large' variant="contained" startIcon={<PermIdentityIcon />} onClick={handleProfile}>Профіль</Button>
+    </Stack>
   )
 }

@@ -19,9 +19,9 @@ export default function Search({ onSearchChange }) {
   const localityChanged = (value) => {
     setL(value);
   }
-
+// TODO https://mui.com/material-ui/react-app-bar/
   return (
-    <Stack spacing={2} direction={matchesSize ? 'row' : 'column'} sx={{ p: 1 }}>
+    <Stack spacing={2} direction={matchesSize ? 'row' : 'column'}>
       <TextField
         fullWidth
         id="outlined-controlled"

@@ -1,27 +1,59 @@
-import { Container, Typography } from '@mui/material';
-import React, { useEffect, useState }from 'react';
+import { Container, Stack, Typography, Button } from '@mui/material';
+import React, { useState }from 'react';
 import AddOrUpdateAd from '../Add/AddOrUpdateAd'
-import axios from "axios";
+import AdsByProfile from './AdsByProfile'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import LogInYourAccount from '../components/LogInYourAccount'
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function Profile() {
+  const theme = useTheme();
+  const matchesSize = useMediaQuery(theme.breakpoints.up('864'));
+  const callback = (name, email) => {
+    setName(name);
+    setEmail(email);
+  }
 
-  const [ad, setAd] = useState(undefined);
+  const [name, setName] = useState(() => {
+    const initialValue = localStorage.getItem("name");
+    return initialValue || "";
+  });
+  const [email, setEmail] = useState(() => {
+    const initialValue = localStorage.getItem("email");
+    return initialValue || "";
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-
-      const data = await axios.get(process.env.REACT_APP_SERVER_URL+`ad/getbyid?id=${652}`);
-      console.log(data);
-      data.data.price = data.data.price.toString();
-
-      setAd(data.data);
-    }
-    fetchData();
-  }, [])
   return (
-    <Container>
-      <Typography>My Profile</Typography>
-      {ad !== undefined && <AddOrUpdateAd defaultValue={ad} />}
-    </Container>
+    <div>
+      {!name ? <LogInYourAccount callback={callback}/>
+       :
+        <Container>
+          <Stack direction={matchesSize ? 'row' : 'column'} sx={{display: 'flex', justifyContent: "space-evenly", mt: '2rem', mb: '2rem'}}>
+            <Typography>Привіт, {name}</Typography>
+            <Button variant="outlined" startIcon={<ExitToAppIcon />} onClick={() => { localStorage.clear(); setName(''); }}>Вийти з акаунту</Button>
+          </Stack>
+          <AdsByProfile email={email}/>
+        </Container>
+        }
+      
+      {/* <Button
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === "light" ? "white" : undefined,
+        }}
+        color="inherit"
+        type="submit"
+        variant="outlined"
+        size="large"
+        children="Continue with Google"
+        startIcon={<GoogleIcon />}
+        //onClick={handleSignIn}
+        data-method="google.com"
+        fullWidth
+      /> */}
+      
+      {/* {ad !== undefined && <AddOrUpdateAd defaultValue={ad} />} */}
+    </div>
   )
 }

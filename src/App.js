@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import AddOrUpdateAd from "./Add/AddOrUpdateAd";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import Main from "./Main/Main";
 import Profile from "./Profile/Profile";
@@ -22,6 +23,7 @@ function App() {
   return (
     // investigate
     // https://mahdi-karimipour.medium.com/responsive-layout-setup-header-content-footer-for-your-react-single-page-application-spa-f5287cdf2a50
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
     <Container sx={{ minHeight: '97vh', display: 'flex', flexDirection: 'column' }}>
       <Header></Header>
       <Stack >
@@ -39,6 +41,7 @@ function App() {
       </Stack>
       <Footer/>
     </Container>
+    </GoogleOAuthProvider>
   );
 }
 

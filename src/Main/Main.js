@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Search from '../Search/Search';
 import AdList from './AdList';
-import { Container } from "@mui/material";
 
 
 export default function Main() {
@@ -14,9 +13,9 @@ export default function Main() {
   }
 
   return (
-    <Container>
+    <div>
       <Search onSearchChange={handleSearch} />
       <AdList searchInput={searchInput} searchLocality={searchLocality} />
-    </Container>
+    </div>
   )
 }
