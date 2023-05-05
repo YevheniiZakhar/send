@@ -12,6 +12,7 @@ export default function Header() {
   const theme = useTheme();
   const matchesSize = useMediaQuery(theme.breakpoints.up('864'));
   const navigate = useNavigate();
+
   const handleAdd = () => {
     navigate("/add")
   }

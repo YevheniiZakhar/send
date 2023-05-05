@@ -52,8 +52,6 @@ export default function Profile() {
         data-method="google.com"
         fullWidth
       /> */}
-      
-      {/* {ad !== undefined && <AddOrUpdateAd defaultValue={ad} />} */}
     </div>
   )
 }

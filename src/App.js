@@ -10,6 +10,8 @@ import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import Collaborate from "./Collaborate/Collaborate";
 import { Container, Stack } from "@mui/material";
+import Added from "./Added/Added";
+
 const Ad = React.lazy(() => import('./Main/Ad'));
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Main />}/>
           <Route path="/add" element={<AddOrUpdateAd />}/>
+          <Route path="/added" element={<Added />}/>
           <Route path="/collaborate" element={<Collaborate />}/>
           <Route path="/ad/:title/:id" element={
             // todo update fallback to valid value

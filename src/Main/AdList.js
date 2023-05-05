@@ -105,7 +105,7 @@ export default function AdList({ searchInput, searchLocality }) {
                   <Typography variant='subtitle2' gutterBottom sx={{maxHeight: '3.4rem', overflow: 'hidden', lineHeight: '1.3'}}>
                     { x.name}
                   </Typography>
-                  <Typography variant='caption' sx={{fontSize: '0.7rem' }}gutterBottom>
+                  <Typography variant='caption' sx={{fontSize: '0.7rem' }} gutterBottom>
                   {x.locality} - { new Date(Date.parse(x.createdDate)).toLocaleDateString('uk-UA')}
                   </Typography>
                   <Typography sx={{fontWeight: 600}} variant='h7'>
@@ -116,7 +116,7 @@ export default function AdList({ searchInput, searchLocality }) {
             ))}
           </Box>
         </ThemeProvider>
-        <Stack>
+        <Stack sx={{ m: "1rem" }}>
           <Pagination sx={{ margin: 'auto' }} color="primary" count={response.pageCount} page={page} onChange={handlePageChange} variant="outlined" shape="rounded" />
         </Stack>
       </Container> 
