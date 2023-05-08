@@ -1,4 +1,4 @@
-import { Container, Stack, Button } from '@mui/material';
+import { Stack, Button } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 export default function Footer() {
@@ -8,10 +8,8 @@ export default function Footer() {
   }
 
   return (
-    <Container sx={{ mt: 'auto'}} >
-      <Stack direction='row'>
-        <Button onClick={handleCollaborate}>Співпраця</Button>
-      </Stack>
-    </Container>
+    <Stack direction='row' sx={{ mt: 'auto'}}>
+      <Button onClick={handleCollaborate} variant='outlined' sx={{ mt: '1rem'}}>Співпраця</Button>
+    </Stack>
   )
 }

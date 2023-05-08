@@ -12,6 +12,11 @@ export default function Search({ onSearchChange }) {
   const [q, setQ] = useState('');
   const [l, setL] = useState(0);
 
+  document.addEventListener('keydown', (e) => { 
+      if (e && e.code === "Enter" && e.key === "Enter") 
+        buttonClick();
+    });
+
   const buttonClick = () => {
     onSearchChange(q, l);
   }
@@ -19,7 +24,7 @@ export default function Search({ onSearchChange }) {
   const localityChanged = (value) => {
     setL(value);
   }
-// TODO https://mui.com/material-ui/react-app-bar/
+  
   return (
     <Stack spacing={2} direction={matchesSize ? 'row' : 'column'}>
       <TextField

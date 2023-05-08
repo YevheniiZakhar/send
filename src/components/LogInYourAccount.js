@@ -31,7 +31,7 @@ export default function LogInYourAccount({ callback }) {
     }, []);
 
   const login = async (token) => {
-    axios.get(process.env.REACT_APP_SERVER_URL + `user/google?token=${token}`,)
+    await axios.get(process.env.REACT_APP_SERVER_URL + `user/google?token=${token}`,)
     .then(result => {
       localStorage.setItem("email", result.data.email);
       localStorage.setItem("name", result.data.name);
@@ -47,8 +47,6 @@ export default function LogInYourAccount({ callback }) {
       <Stack direction={matchesSize ? 'row' : 'column'} sx={{display: 'flex', justifyContent: "space-evenly", mt: '2rem', mb: '2rem'}}>
         <Typography>Увійдіть в свій Google акаунт</Typography>
         <GoogleLogin
-       
-      
           onSuccess={result => { 
             login(result.credential)
           }}

@@ -28,13 +28,13 @@ export default function Profile() {
     <div>
       {!name ? <LogInYourAccount callback={callback}/>
        :
-        <Container>
+        <div>
           <Stack direction={matchesSize ? 'row' : 'column'} sx={{display: 'flex', justifyContent: "space-evenly", mt: '2rem', mb: '2rem'}}>
             <Typography>Привіт, {name}</Typography>
             <Button variant="outlined" startIcon={<ExitToAppIcon />} onClick={() => { localStorage.clear(); setName(''); }}>Вийти з акаунту</Button>
           </Stack>
           <AdsByProfile email={email}/>
-        </Container>
+        </div>
         }
       
       {/* <Button
