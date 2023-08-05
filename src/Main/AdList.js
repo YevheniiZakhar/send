@@ -26,7 +26,6 @@ export default function AdList({ searchInput, searchLocality }) {
     },
   });
 
-
   useEffect(() => {
     // TODO invoke endpoint by pressing Enter (тільки якщо було змінено локацію або інпут)
     const fetchData = async () => {
@@ -88,8 +87,7 @@ export default function AdList({ searchInput, searchLocality }) {
                           <NoPhotographyIcon color='action' sx={{ fontSize: 90 }} />
                         </Box>}
                     </Box>
-
-
+                  
                     <Stack >
                       <Typography variant='subtitle2' gutterBottom sx={{ maxHeight: '3.4rem', overflow: 'hidden', lineHeight: '1.3' }}>
                         {x.name}

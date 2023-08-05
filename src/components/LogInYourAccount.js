@@ -45,7 +45,7 @@ export default function LogInYourAccount({ callback }) {
   return (
     <div>
       <Stack direction={matchesSize ? 'row' : 'column'} sx={{display: 'flex', justifyContent: "space-evenly", mt: '2rem', mb: '2rem'}}>
-        <Typography>Увійдіть в свій Google акаунт</Typography>
+        <Typography>Увійдіть у свій Google акаунт</Typography>
         <GoogleLogin
           onSuccess={result => { 
             login(result.credential)

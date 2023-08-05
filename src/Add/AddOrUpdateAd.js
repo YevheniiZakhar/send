@@ -115,20 +115,22 @@ const AddOrUpdateAd = ({ defaultValue }) => {
     formData.append("phone", values.phone);
     formData.append("localityId", values.localityId);
 
-    let result;
     if (!defaultValue) {
-      result = await axios.post(process.env.REACT_APP_SERVER_URL + 'ad', formData);
-    } else {
-      formData.append("id", defaultValue.id);
-      result = await axios.put(process.env.REACT_APP_SERVER_URL + 'ad', formData);
-    }
-    result
-      .then(resp => {
+      await axios.post(process.env.REACT_APP_SERVER_URL + 'ad', formData).then(resp => {
         console.log(resp);
         navigate("/added", { state: { name: getValues("name"), edit: !!defaultValue } });
       })
       // TODO HANDLE DIFFERENT SCENARIOUS (201, 500, and display appropriate message on UI)
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error));;
+    } else {
+      formData.append("id", defaultValue.id);
+      await axios.put(process.env.REACT_APP_SERVER_URL + 'ad', formData).then(resp => {
+        console.log(resp);
+        navigate("/added", { state: { name: getValues("name"), edit: !!defaultValue } });
+      })
+      // TODO HANDLE DIFFERENT SCENARIOUS (201, 500, and display appropriate message on UI)
+      .catch((error) => console.log(error));;
+    }
   };
 
   // TODO: navigation buttons, footer, header, natofication on important action
