@@ -62,7 +62,9 @@ export default function Ad() {
           {images && images.length > 0 ? <ThemeProvider theme={theme}>
             <Box
               sx={{
-                maxHeight: '17rem',
+                border: '1px solid #808080',
+                borderRadius: '1rem',
+                maxHeight: '20rem',
                 overflow: 'auto',
                 justifyContent: "center",
                 display: "grid",
@@ -76,14 +78,23 @@ export default function Ad() {
                   display: "flex",
                   flexDirection: "column",
                 },
+                '&::-webkit-scrollbar': {
+                  width: '2rem'
+                },
+                '&::-webkit-scrollbar-track': {
+                    border: 'solid 2rem transparent'
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  borderRadius: '20rem',
+                  boxShadow: 'inset 0 0 13px rgba(0,0,0,0.5)' 
+                },
               }}
             >
               {images.map((src, i) => {
                 return src && (
-                  <Tooltip title="Натисніть на фото щоб збільшити">
+                  <Tooltip title="Натисніть на фото щоб збільшити" key={i}>
                     <Box
-                      key={i}
-                      sx={{ height: "7rem", marginTop: '1rem', cursor: 'pointer' }}
+                      sx={{ height: "15rem", marginTop: '1rem', cursor: 'pointer', objectFit: 'cover', width: '100%', marginRight: '1rem' }}
                       onClick={() => openImageViewer(i)}
                       component="img"
                       src={src} >
@@ -94,23 +105,24 @@ export default function Ad() {
             </Box>
           </ThemeProvider> : ''}
 
-          <Stack sx={{ textAlign: 'initial' }}>
-            <Typography variant='h4' gutterBottom paragraph>
+          <Stack sx={{ textAlign: 'initial',  border: '1px solid #808080',
+                borderRadius: '1rem', mt: '1rem' }}>
+            <Typography variant='h4' sx={{m: '1rem'}} gutterBottom paragraph>
               {ad.name}
             </Typography>
-            <Typography sx={{ fontWeight: 600 }} variant='h4' gutterBottom paragraph>
-              {ad.price} грн.
+            <Typography sx={{ fontWeight: 600, m: '1rem' }} variant='h4' gutterBottom paragraph>
+              {ad.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} грн.
             </Typography>
-            <Typography variant='overline' sx={{ fontSize: '1.5rem' }}>
-              Опис
+            <Typography sx={{ fontSize: '1.5rem', mt: '1rem', ml: '1rem' }}>
+              ОПИС:
             </Typography>
-            <Typography variant='body1' gutterBottom>
+            <Typography variant='body1' gutterBottom sx={{m: '1rem'}}>
               {ad.description}
             </Typography>
-            <Typography variant='h6' gutterBottom>
+            <Typography variant='h6' gutterBottom sx={{m: '1rem'}}>
               Користувач: {ad.userName}, Телефон: +{ad.phone}
             </Typography>
-            <Typography variant='h6' gutterBottom>
+            <Typography variant='h6' gutterBottom sx={{m: '1rem'}}> 
               Місцезнаходження: {ad.locality}
             </Typography>
           </Stack>

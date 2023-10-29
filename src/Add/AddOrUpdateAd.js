@@ -58,7 +58,7 @@ const registerSchema = object({
     .max(9, 'Потрібно ввести не більше ніж 9 символів'),
 });
 
-const AddOrUpdateAd = ({ defaultValue }) => {
+const AddOrUpdateAd = ({ callback1, name, defaultValue, propsEmail}) => {
   const [errorOpen, setErrorOpen] = useState(false);
   const theme = useTheme();
   const matchesSize = useMediaQuery(theme.breakpoints.up('864'));
@@ -66,20 +66,6 @@ const AddOrUpdateAd = ({ defaultValue }) => {
   const [fileList, setFileList] = useState();
   const [categoryOptions, setCategoryOptions] = useState();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios.get(process.env.REACT_APP_SERVER_URL + 'ad/data')
-      .then(resp => {
-        const categories = resp.data.category.map((c) => ({ id: c.id, name: c.name }));
-        setCategoryOptions(categories);
-      })
-      .catch((error) => {
-        console.log(error)
-      });
-    };
-    fetchData();
-  }, []);
 
   const methods = useForm({
     defaultValues: defaultValue,
@@ -93,11 +79,23 @@ const AddOrUpdateAd = ({ defaultValue }) => {
     formState: { isSubmitSuccessful, errors, isValid },
   } = methods;
 
-  const [email, setEmail] = useState(() => {
-    const initialValue = localStorage.getItem("email");
-    setValue('email', initialValue);
-    return initialValue || "";
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios.get(process.env.REACT_APP_SERVER_URL + 'ad/data')
+      .then(resp => {
+        const categories = resp.data.category.map((c) => ({ id: c.id, name: c.name }));
+        setCategoryOptions(categories);
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    };
+    fetchData();
+    document.title = "Додати нове оголошення на сайті безкоштовних оголошень"
+    if (propsEmail) {
+      setValue('email', propsEmail)
+    }
+  }, []);
 
   const onSubmitHandler = async (values) => {
     const formData = new FormData();
@@ -158,7 +156,7 @@ const AddOrUpdateAd = ({ defaultValue }) => {
 
   const callback = (name, email) => {
     setValue('email', email);
-    setEmail(email);
+    callback1(name, email)
   }
 
   const handleIsErrorClose = () => {
@@ -172,7 +170,7 @@ const AddOrUpdateAd = ({ defaultValue }) => {
           Помилка при створенні оголошення.
         </Alert>
       </Snackbar>
-      {!email ?
+      {!name ?
         <LogInYourAccount callback={callback} />
         :
         !categoryOptions ?

@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import Locality from '../components/locality';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function Search({ onSearchChange }) {
   const theme = useTheme();
@@ -37,7 +38,7 @@ export default function Search({ onSearchChange }) {
         }}
       /> 
       <Locality localityChanged={localityChanged}/>
-      <Button variant="contained" sx={{ minWidth: '6rem'}} onClick={buttonClick}>ЗНАЙТИ</Button>
+      <Button startIcon={<SearchIcon />} variant="contained" sx={{ minWidth: '6rem', textTransform: 'none', pl: '3rem', pr: '3rem'}} onClick={buttonClick}>Пошук...</Button>
     </Stack>
   )
 }

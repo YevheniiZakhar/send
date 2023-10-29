@@ -78,7 +78,7 @@ export default function AdList({ searchInput, searchLocality }) {
                   <Box key={x.id} sx={{ textAlign: 'initial' }} className={styles.ad} onClick={() => adClick(x.name, x.id)}>
                     <Box sx={{ textAlign: 'center' }}>
                       {x.file1 ? <Box
-                        sx={{ height: '9rem' }}
+                        sx={{ height: '15rem', borderRadius: "16px 16px 0 0", width: '100%', objectFit: 'cover' }}
                         component="img"
                         src={"data:image/png;base64," + x.file1} >
                       </Box>
@@ -88,16 +88,17 @@ export default function AdList({ searchInput, searchLocality }) {
                         </Box>}
                     </Box>
                   
-                    <Stack >
+                    <Stack style={{ padding: '1rem' }}>
                       <Typography variant='subtitle2' gutterBottom sx={{ maxHeight: '3.4rem', overflow: 'hidden', lineHeight: '1.3' }}>
                         {x.name}
-                      </Typography>
-                      <Typography variant='caption' sx={{ fontSize: '0.7rem' }} gutterBottom>
-                        {x.locality} - {new Date(Date.parse(x.createdDate)).toLocaleDateString('uk-UA')}
                       </Typography>
                       <Typography sx={{ fontWeight: 600 }} variant='h7'>
                         {x.price} ГРН
                       </Typography>
+                      <Typography variant='caption' sx={{ fontSize: '0.7rem' }} gutterBottom>
+                        {x.locality} - {new Date(Date.parse(x.createdDate)).toLocaleDateString('uk-UA')}
+                      </Typography>
+                     
                     </Stack>
                   </Box>
                 ))}

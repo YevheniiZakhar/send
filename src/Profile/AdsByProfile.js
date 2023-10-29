@@ -1,4 +1,4 @@
-import { Container, Box, Stack, Typography, Button } from '@mui/material';
+import { Box, Stack, Typography, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -7,7 +7,10 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import AddOrUpdateAd from '../Add/AddOrUpdateAd';
-export default function AdsByProfile({ email }) {
+import styles from "./AdsByProfile.module.css"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+export default function AdsByProfile({ email, name }) {
   const [ad, setAd] = useState(undefined);
 
   const [editAd, setEditAd] = useState(undefined);
@@ -48,7 +51,13 @@ export default function AdsByProfile({ email }) {
   // TODO if ad was edited show message that ad was edited but not created
   return (
     <div>
-      {ad &&
+      {editAd !== undefined && 
+        <>
+          <Button startIcon={<ArrowBackIcon />} variant="text" sx={{ minWidth: '6rem', textTransform: 'none'}} onClick={() => setEditAd(undefined)}>Назад</Button>
+          <AddOrUpdateAd defaultValue={editAd} propsEmail={email} name={name} />
+        </>
+      }
+      {ad && !editAd && 
         <ThemeProvider theme={theme}>
           <Typography variant='subtitle2' gutterBottom sx={{ maxHeight: '3.4rem', overflow: 'hidden', lineHeight: '1.3' }}>
             Ваші оголошення:
@@ -67,34 +76,33 @@ export default function AdsByProfile({ email }) {
             }}
           >
             {ad.map((x) => (
-              <Box key={x.id} sx={{ textAlign: 'initial', border: "1px dotted #5196D9", p: 1 }}>
-
-                <Box sx={{ textAlign: 'center' }}>
-                  {x.file1 ? <Box
-                    sx={{ height: '6rem' }}
-                    component="img"
-                    src={"data:image/png;base64," + x.file1} >
-                  </Box>
-                    :
-                    <Box sx={{ height: '6rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <NoPhotographyIcon color='action' sx={{ fontSize: 90 }} />
-                    </Box>}
-                </Box>
-                <Stack sx={{ height: '2.5rem' }}>
+              <Box key={x.id} sx={{ textAlign: 'initial' }} className={styles.ad}>
+                <Box sx={{ textAlign: 'center' }} >
+                      {x.file1 ? <Box
+                        sx={{ height: '15rem', borderRadius: "16px 16px 0 0", width: '100%', objectFit: 'cover' }}
+                        component="img"
+                        src={"data:image/png;base64," + x.file1} >
+                      </Box>
+                        :
+                        <Box sx={{ height: '9rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                          <NoPhotographyIcon color='action' sx={{ fontSize: 90 }} />
+                        </Box>}
+                    </Box>
+                <Stack style={{ padding: '1rem' }}>
                   <Typography variant='subtitle2' gutterBottom sx={{ maxHeight: '3.4rem', overflow: 'hidden', lineHeight: '1.3' }}>
                     {x.name}
                   </Typography>
                 </Stack>
-                <Stack direction={'row'} justifyContent="center" spacing={2} sx={{ mb: '2px' }}>
-                  <Button size='small' variant="contained" startIcon={!x.hidden ? <VisibilityOffIcon /> : <VisibilityIcon />} onClick={async () => { await changeHidden(x.id); }} >{!x.hidden ? 'Деактивувати' : 'Активувати'}</Button>
-                  <Button size='small' variant="contained" startIcon={<EditIcon />} onClick={async () => { await changeEdit(x.id); }}>Змінити</Button>
+                <Stack direction={'row'} justifyContent="center" spacing={2} sx={{ m: '1px', pb: '1rem' }}>
+                  <Button size='small' variant="outlined" startIcon={!x.hidden ? <VisibilityOffIcon /> : <VisibilityIcon />} onClick={async () => { await changeHidden(x.id); }} >{!x.hidden ? 'Сховати' : 'Показати'}</Button>
+                  <Button size='small' variant="outlined" startIcon={<EditIcon />} onClick={async () => { await changeEdit(x.id); }}>Змінити</Button>
                 </Stack>
               </Box>
             ))}
           </Box>
         </ThemeProvider>
       }
-      {editAd !== undefined && <AddOrUpdateAd defaultValue={editAd} />}
+      
     </div>
   )
 }
